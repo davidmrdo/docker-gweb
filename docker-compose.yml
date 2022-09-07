@@ -1,0 +1,27 @@
+version: "3"
+services:
+  nginx:
+    container_name: gweb-nginex
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports: 
+      - "80:80"
+    networks:
+      - internal
+    volumes:
+      - ./www/html/:/var/www/html/
+      - ./logs/nginx:/var/log/nginx/
+  php:
+    container_name: gweb-php
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    networks:
+      - internal
+    volumes:
+      - ./www/html/:/var/www/html/
+      - ./logs/php.log:/var/log/fpm-php.www.log
+networks:
+  internal:
+    driver: bridge
